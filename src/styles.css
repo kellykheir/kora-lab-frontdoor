@@ -1,6 +1,7 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap");
 
 @theme inline {
   --color-background: var(--background);
@@ -29,9 +30,10 @@
     background-color: var(--background);
     color: var(--foreground);
     font-weight: 400;
+    line-height: 1.55;
   }
   * { border-color: var(--border); }
-  h1, h2, h3 { font-weight: 900; letter-spacing: -0.02em; }
+  h1, h2, h3 { font-weight: 900; letter-spacing: -0.02em; line-height: 1.1; }
 }
 
 @keyframes kora-fade-in {
@@ -39,23 +41,21 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-.kora-reveal {
-  opacity: 0;
-  will-change: opacity, transform;
-}
-.kora-reveal.is-visible {
-  animation: kora-fade-in 0.8s ease-out forwards;
-}
+.kora-reveal { opacity: 0; will-change: opacity, transform; }
+.kora-reveal.is-visible { animation: kora-fade-in 0.8s ease-out forwards; }
 
 @keyframes kora-marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
-.kora-marquee-track {
-  animation: kora-marquee 60s linear infinite;
-}
+.kora-marquee-track { animation: kora-marquee 60s linear infinite; }
 
 .kora-wordmark {
   font-weight: 900;
-  letter-spacing: -1px;
+  letter-spacing: -1.5px;
+  font-size: 20px;
 }
+
+.kora-prose p { margin-bottom: 1.25rem; line-height: 1.7; }
+.kora-prose h2 { font-size: 1.875rem; margin-top: 2.5rem; margin-bottom: 1rem; }
+.kora-prose h3 { font-size: 1.375rem; margin-top: 2rem; margin-bottom: 0.75rem; }
