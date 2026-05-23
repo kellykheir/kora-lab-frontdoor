@@ -107,11 +107,14 @@ function Footer() {
                 {l.label}
               </Link>
             ))}
+            <Link to="/glossary" className="text-xs font-bold uppercase tracking-wider text-[#ABABAB] hover:text-white">
+              Glossary
+            </Link>
           </div>
           <div className="md:text-right">
             <p className="text-sm text-white">Building for the continent.</p>
             <div className="mt-3 flex flex-col gap-1 text-sm text-[#ABABAB] md:items-end">
-              <a href="https://kora-lab.com" className="hover:text-white">kora-lab.com</a>
+              <a href="https://koralab.org" className="hover:text-white">koralab.org</a>
               <a href="https://edenvallie.com" className="hover:text-white">edenvallie.com</a>
             </div>
           </div>
