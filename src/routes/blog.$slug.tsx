@@ -2,6 +2,8 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site-layout";
 import { POSTS } from "@/lib/blog-data";
 
+const SITE_URL = "https://koralab.org";
+
 export const Route = createFileRoute("/blog/$slug")({
   loader: ({ params }) => {
     const post = POSTS.find((p) => p.slug === params.slug);
@@ -12,20 +14,67 @@ export const Route = createFileRoute("/blog/$slug")({
     const post = loaderData?.post;
     const title = post ? `${post.title} | Kora Lab` : "Article | Kora Lab";
     const desc = post?.excerpt ?? "An article from Kora Lab.";
-    const url = post ? `https://kora-lab.com/blog/${post.slug}` : "https://kora-lab.com/blog";
+    const url = post ? `${SITE_URL}/blog/${post.slug}` : `${SITE_URL}/blog`;
     return {
       meta: [
         { title },
         { name: "description", content: desc },
+        { name: "keywords", content: post ? `${post.category}, sovereign AI Africa, Kora Lab, African AI, ${post.title}` : "Kora Lab, African AI" },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
         { property: "og:type", content: "article" },
         { property: "og:url", content: url },
-        { name: "twitter:card", content: "summary_large_image" },
+        { property: "og:image", content: `${SITE_URL}/og-default.jpg` },
+        { property: "article:author", content: "Kheir Lissi" },
+        { property: "article:published_time", content: post?.date ?? "" },
+        { property: "article:section", content: post?.category ?? "" },
         { name: "twitter:title", content: title },
         { name: "twitter:description", content: desc },
+        { name: "twitter:image", content: `${SITE_URL}/og-default.jpg` },
       ],
       links: [{ rel: "canonical", href: url }],
+      scripts: post
+        ? [
+            {
+              type: "application/ld+json",
+              children: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Article",
+                headline: post.title,
+                description: post.excerpt,
+                image: `${SITE_URL}/og-default.jpg`,
+                datePublished: post.date,
+                dateModified: post.date,
+                author: {
+                  "@type": "Person",
+                  name: "Kheir Lissi",
+                  url: `${SITE_URL}/about`,
+                },
+                publisher: {
+                  "@type": "Organization",
+                  name: "Kora Lab",
+                  url: SITE_URL,
+                  logo: { "@type": "ImageObject", url: `${SITE_URL}/og-default.jpg` },
+                },
+                mainEntityOfPage: { "@type": "WebPage", "@id": url },
+                articleSection: post.category,
+                inLanguage: "en",
+              }),
+            },
+            {
+              type: "application/ld+json",
+              children: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+                  { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
+                  { "@type": "ListItem", position: 3, name: post.title, item: url },
+                ],
+              }),
+            },
+          ]
+        : [],
     };
   },
   component: BlogPost,

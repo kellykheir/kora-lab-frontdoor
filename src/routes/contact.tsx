@@ -2,20 +2,56 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { SiteLayout, SectionLabel } from "@/components/site-layout";
 
+const SITE_URL = "https://koralab.org";
+
 export const Route = createFileRoute("/contact")({
   component: ContactPage,
   head: () => ({
     meta: [
-      { title: "Contact | Kora Lab" },
-      { name: "description", content: "Contact Kora Lab for AI partnership Africa, government and institutional alignment, investor conversations, and research collaboration." },
-      { property: "og:title", content: "Contact | Kora Lab" },
+      { title: "Contact Kora Lab | Lome, Togo" },
+      { name: "description", content: "Contact Kora Lab for government and institutional partnerships, investor conversations, research collaboration, and press across the African AI ecosystem." },
+      { property: "og:title", content: "Contact Kora Lab | Lome, Togo" },
       { property: "og:description", content: "Reach Kora Lab for partnerships, investment, research collaboration, and press." },
-      { property: "og:url", content: "https://kora-lab.com/contact" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Contact | Kora Lab" },
+      { property: "og:url", content: `${SITE_URL}/contact` },
+      { property: "og:image", content: `${SITE_URL}/og-default.jpg` },
+      { name: "twitter:title", content: "Contact Kora Lab" },
       { name: "twitter:description", content: "Reach Kora Lab." },
+      { name: "twitter:image", content: `${SITE_URL}/og-default.jpg` },
     ],
-    links: [{ rel: "canonical", href: "https://kora-lab.com/contact" }],
+    links: [{ rel: "canonical", href: `${SITE_URL}/contact` }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          name: "Contact Kora Lab",
+          url: `${SITE_URL}/contact`,
+          mainEntity: {
+            "@type": "Organization",
+            name: "Kora Lab",
+            email: "hello@kora-lab.com",
+            url: SITE_URL,
+            address: { "@type": "PostalAddress", addressLocality: "Lome", addressCountry: "TG" },
+            contactPoint: [
+              { "@type": "ContactPoint", contactType: "general inquiries", email: "hello@kora-lab.com", availableLanguage: ["en", "fr"] },
+              { "@type": "ContactPoint", contactType: "research collaboration", email: "research@koralab.org", availableLanguage: ["en", "fr"] },
+            ],
+          },
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+            { "@type": "ListItem", position: 2, name: "Contact", item: `${SITE_URL}/contact` },
+          ],
+        }),
+      },
+    ],
   }),
 });
 

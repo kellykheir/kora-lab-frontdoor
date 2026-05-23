@@ -3,20 +3,56 @@ import { useState } from "react";
 import { SiteLayout, SectionLabel } from "@/components/site-layout";
 import { POSTS } from "@/lib/blog-data";
 
+const SITE_URL = "https://koralab.org";
+
 export const Route = createFileRoute("/blog/")({
   component: BlogIndex,
   head: () => ({
     meta: [
-      { title: "Writing | Kora Lab" },
-      { name: "description", content: "Analysis, perspectives, and updates from Kora Lab on African AI, sovereignty, and the continental research agenda." },
-      { property: "og:title", content: "Writing | Kora Lab" },
-      { property: "og:description", content: "Analysis and perspectives from Kora Lab on African AI." },
-      { property: "og:url", content: "https://kora-lab.com/blog" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Writing | Kora Lab" },
-      { name: "twitter:description", content: "Analysis and perspectives on African AI." },
+      { title: "Blog | Sovereign AI Analysis from Africa" },
+      { name: "description", content: "Analysis, perspectives, and updates from Kora Lab on African AI sovereignty, the Kigali Declaration, African language models, and continental research." },
+      { property: "og:title", content: "Blog | Sovereign AI Analysis from Africa" },
+      { property: "og:description", content: "Analysis and perspectives from Kora Lab on sovereign AI in Africa." },
+      { property: "og:url", content: `${SITE_URL}/blog` },
+      { property: "og:image", content: `${SITE_URL}/og-default.jpg` },
+      { name: "twitter:title", content: "Blog | Kora Lab" },
+      { name: "twitter:description", content: "Sovereign AI analysis from Africa." },
+      { name: "twitter:image", content: `${SITE_URL}/og-default.jpg` },
     ],
-    links: [{ rel: "canonical", href: "https://kora-lab.com/blog" }],
+    links: [{ rel: "canonical", href: `${SITE_URL}/blog` }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Blog",
+          name: "Kora Lab Blog",
+          url: `${SITE_URL}/blog`,
+          description: "Analysis and perspectives on sovereign AI in Africa.",
+          publisher: { "@type": "Organization", name: "Kora Lab", url: SITE_URL },
+          blogPost: POSTS.map((p) => ({
+            "@type": "BlogPosting",
+            headline: p.title,
+            description: p.excerpt,
+            author: { "@type": "Person", name: "Kheir Lissi" },
+            datePublished: p.date,
+            url: `${SITE_URL}/blog/${p.slug}`,
+            articleSection: p.category,
+          })),
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+            { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
+          ],
+        }),
+      },
+    ],
   }),
 });
 
@@ -33,7 +69,7 @@ function BlogIndex() {
           <SectionLabel>Writing</SectionLabel>
           <h1 className="kora-reveal mt-4 text-4xl font-black tracking-[-0.03em] md:text-6xl">Writing</h1>
           <p className="kora-reveal mt-6 max-w-2xl text-lg text-[#6B6B6B]">
-            Analysis, perspectives, and updates from Kora Lab.
+            Analysis, perspectives, and updates from Kora Lab on sovereign AI in Africa.
           </p>
         </div>
       </section>

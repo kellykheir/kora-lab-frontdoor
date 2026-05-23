@@ -1,34 +1,86 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout, SectionLabel } from "@/components/site-layout";
+import { FaqSection } from "@/components/faq-section";
+import { HOME_FAQ } from "@/lib/faq-data";
 import { POSTS } from "@/lib/blog-data";
 import { RESEARCH } from "@/lib/research-data";
+
+const SITE_URL = "https://koralab.org";
 
 export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
       { title: "Kora Lab | Africa's Sovereign AI Lab" },
-      { name: "description", content: "Kora Lab is Africa's sovereign AI research and product lab. Closing the gap, building the models, and uniting the continent under one flag." },
+      { name: "description", content: "Kora Lab is Africa's sovereign AI research and product lab. Building African language models, datasets, and accessibility tools from Lome, Togo." },
       { property: "og:title", content: "Kora Lab | Africa's Sovereign AI Lab" },
-      { property: "og:description", content: "Africa's sovereign AI research and product lab. Building African language models, accessibility tools, and continental research." },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://kora-lab.com/" },
-      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:description", content: "Africa's sovereign AI research and product lab. African language models, datasets, and continental research from Lome, Togo." },
+      { property: "og:url", content: `${SITE_URL}/` },
+      { property: "og:image", content: `${SITE_URL}/og-default.jpg` },
+      { property: "og:image:width", content: "1216" },
+      { property: "og:image:height", content: "640" },
+      { property: "og:image:alt", content: "Kora Lab — Africa's Sovereign AI Lab" },
       { name: "twitter:title", content: "Kora Lab | Africa's Sovereign AI Lab" },
       { name: "twitter:description", content: "Africa's sovereign AI research and product lab." },
+      { name: "twitter:image", content: `${SITE_URL}/og-default.jpg` },
     ],
-    links: [{ rel: "canonical", href: "https://kora-lab.com/" }],
+    links: [{ rel: "canonical", href: `${SITE_URL}/` }],
     scripts: [
       {
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Organization",
+          "@id": `${SITE_URL}/#organization`,
           name: "Kora Lab",
-          url: "https://kora-lab.com",
-          description: "Africa's sovereign AI research and product lab.",
-          founder: { "@type": "Person", name: "Kheir Lissi" },
-          location: { "@type": "Place", name: "Lome, Togo" },
+          alternateName: ["Koralab", "Kora AI Lab"],
+          url: SITE_URL,
+          logo: `${SITE_URL}/og-default.jpg`,
+          image: `${SITE_URL}/og-default.jpg`,
+          description: "Africa's sovereign AI research and product lab. Builds African language models, open datasets, and accessibility tools for the continent.",
+          foundingDate: "2025",
+          founder: {
+            "@type": "Person",
+            name: "Kheir Lissi",
+            jobTitle: "Founder",
+            sameAs: ["https://edenvallie.com"],
+          },
+          areaServed: { "@type": "Continent", name: "Africa" },
+          location: {
+            "@type": "Place",
+            name: "Lome, Togo",
+            address: { "@type": "PostalAddress", addressLocality: "Lome", addressCountry: "TG" },
+          },
+          knowsAbout: [
+            "Sovereign AI",
+            "African language models",
+            "African large language models",
+            "African NLP",
+            "Low-resource language AI",
+            "Kigali Declaration on AI",
+            "Africa AI Fund",
+            "AU Continental AI Strategy",
+            "AfDB AI 10 Billion Initiative",
+            "Smart Africa",
+            "AI sovereignty",
+            "AI accessibility",
+            "African datasets",
+            "Swahili LLM",
+            "Yoruba LLM",
+            "Hausa LLM",
+            "Amharic LLM",
+          ],
+          sameAs: [
+            "https://koralab.org",
+            "https://edenvallie.com",
+          ],
+          contactPoint: {
+            "@type": "ContactPoint",
+            email: "hello@kora-lab.com",
+            contactType: "general inquiries",
+            areaServed: "Worldwide",
+            availableLanguage: ["en", "fr"],
+          },
         }),
       },
     ],
@@ -40,9 +92,15 @@ function Index() {
     <SiteLayout>
       <Hero />
       <Ticker />
+      <Definition />
       <Problem />
       <Moment />
       <Stats />
+      <FaqSection
+        label="Frequently Asked"
+        heading="What People Ask About Kora Lab"
+        items={HOME_FAQ}
+      />
       <BlogPreview />
       <ResearchPreview />
       <ContactCTA />
@@ -60,8 +118,8 @@ function Hero() {
           <span className="block text-[#ABABAB]">Africa builds AI.</span>
         </h1>
         <hr className="kora-reveal my-10 w-20 border-0 border-t border-white" />
-        <p className="kora-reveal max-w-[600px] text-[18px] text-[#ABABAB]">
-          Kora Lab is Africa's sovereign AI research and product lab. Closing the gap, building the models, uniting the continent under one flag.
+        <p className="kora-reveal max-w-[640px] text-[18px] text-[#ABABAB]">
+          Kora Lab is Africa's sovereign AI research and product lab. We build African language models, open datasets, and accessibility tools so the continent owns the AI systems that will define its future.
         </p>
         <div className="kora-reveal mt-10 flex flex-col gap-3 sm:flex-row">
           <Link to="/approach" className="bg-white px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-[#0A0A0A] transition-opacity hover:opacity-80">Our Approach</Link>
@@ -82,6 +140,21 @@ function Ticker() {
         <span className="px-4 text-[13px] font-bold uppercase tracking-[2px] text-white">{repeated}</span>
       </div>
     </div>
+  );
+}
+
+function Definition() {
+  return (
+    <section className="bg-white">
+      <div className="mx-auto max-w-[1100px] px-6 py-20 md:py-24">
+        <div className="kora-reveal">
+          <SectionLabel>What is Kora Lab</SectionLabel>
+          <p className="mt-6 max-w-3xl text-2xl font-bold leading-snug tracking-[-0.02em] text-[#0A0A0A] md:text-3xl">
+            Kora Lab is Africa's sovereign AI lab, headquartered in Lome, Togo. We build the African language models, open datasets, and accessibility tools that the African Union Continental AI Strategy, the Kigali Declaration, and the $60 billion Africa AI Fund assume already exist.
+          </p>
+        </div>
+      </div>
+    </section>
   );
 }
 

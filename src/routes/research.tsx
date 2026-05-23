@@ -3,20 +3,61 @@ import { useState } from "react";
 import { SiteLayout, SectionLabel } from "@/components/site-layout";
 import { RESEARCH, type ResearchItem } from "@/lib/research-data";
 
+const SITE_URL = "https://koralab.org";
+
 export const Route = createFileRoute("/research")({
   component: ResearchPage,
   head: () => ({
     meta: [
-      { title: "Research | Kora Lab" },
-      { name: "description", content: "Working papers, analyses, and datasets from Kora Lab on African AI, language models, and digital sovereignty." },
-      { property: "og:title", content: "Research | Kora Lab" },
+      { title: "Research | African Language Models & Open Datasets" },
+      { name: "description", content: "Working papers, analyses, policy briefs, and open datasets from Kora Lab on African language models, sovereign AI, and continental research." },
+      { property: "og:title", content: "Research | African Language Models & Open Datasets" },
       { property: "og:description", content: "African AI research, working papers, datasets, and policy briefs from Kora Lab." },
-      { property: "og:url", content: "https://kora-lab.com/research" },
-      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: `${SITE_URL}/research` },
+      { property: "og:image", content: `${SITE_URL}/og-default.jpg` },
       { name: "twitter:title", content: "Research | Kora Lab" },
       { name: "twitter:description", content: "African AI research and datasets." },
+      { name: "twitter:image", content: `${SITE_URL}/og-default.jpg` },
     ],
-    links: [{ rel: "canonical", href: "https://kora-lab.com/research" }],
+    links: [{ rel: "canonical", href: `${SITE_URL}/research` }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "Kora Lab Research",
+          url: `${SITE_URL}/research`,
+          description: "Open research from Kora Lab on African AI, language models, datasets, and policy.",
+          mainEntity: {
+            "@type": "ItemList",
+            itemListElement: RESEARCH.map((r, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              item: {
+                "@type": "CreativeWork",
+                name: r.title,
+                description: r.description,
+                author: { "@type": "Person", name: r.authors },
+                datePublished: r.date,
+                genre: r.type,
+              },
+            })),
+          },
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+            { "@type": "ListItem", position: 2, name: "Research", item: `${SITE_URL}/research` },
+          ],
+        }),
+      },
+    ],
   }),
 });
 
@@ -82,8 +123,8 @@ function ResearchPage() {
             <p className="mt-6 text-lg text-[#ABABAB]">
               We work with researchers, universities, and institutions across Africa and globally. If you are interested in joint research, dataset partnerships, or co-authored publications, reach out.
             </p>
-            <a href="mailto:research@kora-lab.com" className="mt-8 inline-block bg-white px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-[#0A0A0A]">
-              research@kora-lab.com
+            <a href="mailto:research@koralab.org" className="mt-8 inline-block bg-white px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-[#0A0A0A]">
+              research@koralab.org
             </a>
           </div>
         </div>
