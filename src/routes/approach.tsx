@@ -1,20 +1,38 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout, SectionLabel } from "@/components/site-layout";
+import { FaqSection } from "@/components/faq-section";
+import { APPROACH_FAQ } from "@/lib/faq-data";
+
+const SITE_URL = "https://koralab.org";
 
 export const Route = createFileRoute("/approach")({
   component: ApproachPage,
   head: () => ({
     meta: [
-      { title: "Approach | Kora Lab" },
-      { name: "description", content: "A two-axis strategy for African AI sovereignty: an accessibility layer for African users and a sovereign model lab building African language AI." },
-      { property: "og:title", content: "Approach | Kora Lab" },
-      { property: "og:description", content: "Kora Lab's two-axis strategy: accessibility layer and sovereign model lab for Africa." },
-      { property: "og:url", content: "https://kora-lab.com/approach" },
-      { name: "twitter:card", content: "summary_large_image" },
+      { title: "Approach | Sovereign Models + Accessibility for Africa" },
+      { name: "description", content: "Kora Lab's two-axis strategy: an accessibility layer that adapts frontier AI for African users and a sovereign model lab building African language LLMs." },
+      { property: "og:title", content: "Approach | Sovereign Models + Accessibility for Africa" },
+      { property: "og:description", content: "Two-axis strategy: African accessibility layer and sovereign African language model lab." },
+      { property: "og:url", content: `${SITE_URL}/approach` },
+      { property: "og:image", content: `${SITE_URL}/og-default.jpg` },
       { name: "twitter:title", content: "Approach | Kora Lab" },
       { name: "twitter:description", content: "A two-axis strategy for African AI sovereignty." },
+      { name: "twitter:image", content: `${SITE_URL}/og-default.jpg` },
     ],
-    links: [{ rel: "canonical", href: "https://kora-lab.com/approach" }],
+    links: [{ rel: "canonical", href: `${SITE_URL}/approach` }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+            { "@type": "ListItem", position: 2, name: "Approach", item: `${SITE_URL}/approach` },
+          ],
+        }),
+      },
+    ],
   }),
 });
 
@@ -99,6 +117,12 @@ function ApproachPage() {
           </div>
         </div>
       </section>
+
+      <FaqSection
+        label="Approach FAQ"
+        heading="How Kora Lab Builds"
+        items={APPROACH_FAQ}
+      />
     </SiteLayout>
   );
 }

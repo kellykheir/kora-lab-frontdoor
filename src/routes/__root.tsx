@@ -10,6 +10,8 @@ import {
 
 import appCss from "../styles.css?url";
 
+const SITE_URL = "https://koralab.org";
+
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -72,19 +74,46 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { name: "robots", content: "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" },
+      { name: "googlebot", content: "index,follow,max-image-preview:large,max-snippet:-1" },
+      { name: "format-detection", content: "telephone=no" },
+      { name: "theme-color", content: "#0A0A0A" },
+      { name: "application-name", content: "Kora Lab" },
+      { name: "apple-mobile-web-app-title", content: "Kora Lab" },
+      { name: "author", content: "Kora Lab" },
+      { name: "publisher", content: "Kora Lab" },
+      { name: "keywords", content: "Kora Lab, koralab, sovereign AI Africa, African AI lab, African language models, African LLM, Kigali Declaration, Africa AI Fund, AU Continental AI Strategy, AfDB AI 10 Billion, Smart Africa, Kheir Lissi, Togo AI, Lome AI, African NLP, African datasets" },
+      { name: "geo.region", content: "TG" },
+      { name: "geo.placename", content: "Lome, Togo" },
+      { property: "og:site_name", content: "Kora Lab" },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { property: "og:locale", content: "en_US" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:site", content: "@koralab" },
+      { name: "twitter:creator", content: "@kheirlissi" },
     ],
     links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "icon", href: "/favicon.ico" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+    ],
+    scripts: [
       {
-        rel: "stylesheet",
-        href: appCss,
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Kora Lab",
+          alternateName: ["Koralab", "Kora AI Lab"],
+          url: SITE_URL,
+          inLanguage: "en",
+          potentialAction: {
+            "@type": "SearchAction",
+            target: `${SITE_URL}/blog?q={search_term_string}`,
+            "query-input": "required name=search_term_string",
+          },
+        }),
       },
     ],
   }),

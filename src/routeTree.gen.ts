@@ -9,7 +9,9 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ResearchRouteImport } from './routes/research'
+import { Route as GlossaryRouteImport } from './routes/glossary'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ApproachRouteImport } from './routes/approach'
 import { Route as AboutRouteImport } from './routes/about'
@@ -17,9 +19,19 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResearchRoute = ResearchRouteImport.update({
   id: '/research',
   path: '/research',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GlossaryRoute = GlossaryRouteImport.update({
+  id: '/glossary',
+  path: '/glossary',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -58,7 +70,9 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/approach': typeof ApproachRoute
   '/contact': typeof ContactRoute
+  '/glossary': typeof GlossaryRoute
   '/research': typeof ResearchRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/': typeof BlogIndexRoute
 }
@@ -67,7 +81,9 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/approach': typeof ApproachRoute
   '/contact': typeof ContactRoute
+  '/glossary': typeof GlossaryRoute
   '/research': typeof ResearchRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog': typeof BlogIndexRoute
 }
@@ -77,7 +93,9 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/approach': typeof ApproachRoute
   '/contact': typeof ContactRoute
+  '/glossary': typeof GlossaryRoute
   '/research': typeof ResearchRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/': typeof BlogIndexRoute
 }
@@ -88,7 +106,9 @@ export interface FileRouteTypes {
     | '/about'
     | '/approach'
     | '/contact'
+    | '/glossary'
     | '/research'
+    | '/sitemap.xml'
     | '/blog/$slug'
     | '/blog/'
   fileRoutesByTo: FileRoutesByTo
@@ -97,7 +117,9 @@ export interface FileRouteTypes {
     | '/about'
     | '/approach'
     | '/contact'
+    | '/glossary'
     | '/research'
+    | '/sitemap.xml'
     | '/blog/$slug'
     | '/blog'
   id:
@@ -106,7 +128,9 @@ export interface FileRouteTypes {
     | '/about'
     | '/approach'
     | '/contact'
+    | '/glossary'
     | '/research'
+    | '/sitemap.xml'
     | '/blog/$slug'
     | '/blog/'
   fileRoutesById: FileRoutesById
@@ -116,18 +140,34 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ApproachRoute: typeof ApproachRoute
   ContactRoute: typeof ContactRoute
+  GlossaryRoute: typeof GlossaryRoute
   ResearchRoute: typeof ResearchRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   BlogSlugRoute: typeof BlogSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/research': {
       id: '/research'
       path: '/research'
       fullPath: '/research'
       preLoaderRoute: typeof ResearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/glossary': {
+      id: '/glossary'
+      path: '/glossary'
+      fullPath: '/glossary'
+      preLoaderRoute: typeof GlossaryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -180,20 +220,12 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ApproachRoute: ApproachRoute,
   ContactRoute: ContactRoute,
+  GlossaryRoute: GlossaryRoute,
   ResearchRoute: ResearchRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   BlogSlugRoute: BlogSlugRoute,
   BlogIndexRoute: BlogIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

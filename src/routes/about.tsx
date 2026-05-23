@@ -1,20 +1,60 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout, SectionLabel } from "@/components/site-layout";
 
+const SITE_URL = "https://koralab.org";
+
 export const Route = createFileRoute("/about")({
   component: AboutPage,
   head: () => ({
     meta: [
-      { title: "About | Kora Lab" },
-      { name: "description", content: "About Kora Lab and founder Kheir Lissi: building Africa's sovereign AI lab from Lome, Togo." },
-      { property: "og:title", content: "About | Kora Lab" },
-      { property: "og:description", content: "Kheir Lissi, founder of Kora Lab, on building Africa's sovereign AI infrastructure." },
-      { property: "og:url", content: "https://kora-lab.com/about" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "About | Kora Lab" },
+      { title: "About Kora Lab & Founder Kheir Lissi" },
+      { name: "description", content: "Kora Lab is Africa's sovereign AI lab, founded by Kheir Lissi in Lome, Togo. Building the continent's own models, datasets, and research." },
+      { property: "og:title", content: "About Kora Lab & Founder Kheir Lissi" },
+      { property: "og:description", content: "Kheir Lissi, founder of Kora Lab, on building Africa's sovereign AI infrastructure from Lome, Togo." },
+      { property: "og:url", content: `${SITE_URL}/about` },
+      { property: "og:image", content: `${SITE_URL}/og-default.jpg` },
+      { property: "og:type", content: "profile" },
+      { name: "twitter:title", content: "About Kora Lab & Founder Kheir Lissi" },
       { name: "twitter:description", content: "Kheir Lissi, founder of Kora Lab." },
+      { name: "twitter:image", content: `${SITE_URL}/og-default.jpg` },
     ],
-    links: [{ rel: "canonical", href: "https://kora-lab.com/about" }],
+    links: [{ rel: "canonical", href: `${SITE_URL}/about` }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "@id": `${SITE_URL}/about#kheir-lissi`,
+          name: "Kheir Lissi",
+          jobTitle: "Founder of Kora Lab",
+          worksFor: { "@type": "Organization", name: "Kora Lab", url: SITE_URL },
+          nationality: { "@type": "Country", name: "Togo" },
+          homeLocation: { "@type": "Place", name: "Lome, Togo" },
+          knowsAbout: [
+            "Artificial Intelligence",
+            "African language models",
+            "Sovereign AI",
+            "Big data",
+            "African AI policy",
+            "Kigali Declaration on AI",
+          ],
+          sameAs: ["https://edenvallie.com", "https://koralab.org"],
+          url: `${SITE_URL}/about`,
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+            { "@type": "ListItem", position: 2, name: "About", item: `${SITE_URL}/about` },
+          ],
+        }),
+      },
+    ],
   }),
 });
 
@@ -44,7 +84,7 @@ function AboutPage() {
                 I am not waiting for permission to build Africa's AI lab. I am building it.
               </p>
               <div className="mt-6 flex flex-wrap gap-6 text-sm font-bold uppercase tracking-wider">
-                <a href="https://kora-lab.com" className="border-b border-[#0A0A0A] pb-1 text-[#0A0A0A]">kora-lab.com</a>
+                <a href="https://koralab.org" className="border-b border-[#0A0A0A] pb-1 text-[#0A0A0A]">koralab.org</a>
                 <a href="https://edenvallie.com" className="border-b border-[#0A0A0A] pb-1 text-[#0A0A0A]">edenvallie.com</a>
               </div>
             </div>
@@ -78,7 +118,6 @@ function AboutPage() {
         </div>
       </section>
 
-      {/* Replace placeholder cards with real advisor names and bios as they are confirmed. */}
       <section className="bg-[#E8E8E8]">
         <div className="mx-auto max-w-[1100px] px-6 py-24 md:py-32">
           <div className="kora-reveal">
