@@ -9,7 +9,9 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "generate-sitemap": "tsx scripts/generate-sitemap.ts",
+    "generate-spa-html": "tsx scripts/generate-spa-html.ts",
     "prebuild": "npm run generate-sitemap",
+    "postbuild": "npm run generate-spa-html",
     "lint": "eslint .",
     "format": "prettier --write ."
   },
