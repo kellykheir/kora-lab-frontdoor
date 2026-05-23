@@ -46,5 +46,10 @@ ${cssLink}
 `;
 
 const outPath = path.join(clientDir, "index.html");
-fs.writeFileSync(outPath, html, "utf-8");
-console.log(`✅ SPA HTML generated: ${outPath} (entry: ${mainJs})`);
+
+if (fs.existsSync(outPath)) {
+  console.log(`ℹ SPA fallback skipped — ${outPath} already exists (prerendered)`);
+} else {
+  fs.writeFileSync(outPath, html, "utf-8");
+  console.log(`✅ SPA fallback HTML generated: ${outPath} (entry: ${mainJs})`);
+}
