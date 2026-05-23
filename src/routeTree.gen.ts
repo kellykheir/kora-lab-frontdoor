@@ -9,7 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as GlossaryRouteImport } from './routes/glossary'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -19,11 +18,6 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ResearchRoute = ResearchRouteImport.update({
   id: '/research',
   path: '/research',
@@ -72,7 +66,6 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/glossary': typeof GlossaryRoute
   '/research': typeof ResearchRoute
-  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/': typeof BlogIndexRoute
 }
@@ -83,7 +76,6 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/glossary': typeof GlossaryRoute
   '/research': typeof ResearchRoute
-  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog': typeof BlogIndexRoute
 }
@@ -95,7 +87,6 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/glossary': typeof GlossaryRoute
   '/research': typeof ResearchRoute
-  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/': typeof BlogIndexRoute
 }
@@ -108,7 +99,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/glossary'
     | '/research'
-    | '/sitemap.xml'
     | '/blog/$slug'
     | '/blog/'
   fileRoutesByTo: FileRoutesByTo
@@ -119,7 +109,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/glossary'
     | '/research'
-    | '/sitemap.xml'
     | '/blog/$slug'
     | '/blog'
   id:
@@ -130,7 +119,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/glossary'
     | '/research'
-    | '/sitemap.xml'
     | '/blog/$slug'
     | '/blog/'
   fileRoutesById: FileRoutesById
@@ -142,20 +130,12 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   GlossaryRoute: typeof GlossaryRoute
   ResearchRoute: typeof ResearchRoute
-  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   BlogSlugRoute: typeof BlogSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/research': {
       id: '/research'
       path: '/research'
@@ -222,7 +202,6 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   GlossaryRoute: GlossaryRoute,
   ResearchRoute: ResearchRoute,
-  SitemapDotxmlRoute: SitemapDotxmlRoute,
   BlogSlugRoute: BlogSlugRoute,
   BlogIndexRoute: BlogIndexRoute,
 }
