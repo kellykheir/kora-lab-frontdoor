@@ -75,14 +75,14 @@ function Nav() {
             <Link
               key={l.to}
               to={l.to}
-              className="text-3xl font-black tracking-[-0.02em] text-white"
+              className="rounded-lg bg-white/10 px-4 py-3 text-2xl font-black tracking-[-0.02em] text-white"
             >
               {l.label}
             </Link>
           ))}
           <Link
             to="/contact"
-            className="mt-4 inline-block self-start bg-white px-6 py-3 text-xs font-bold uppercase tracking-wider text-[#0A0A0A]"
+            className="mt-4 inline-block self-start rounded-lg bg-white px-6 py-3 text-xs font-bold uppercase tracking-wider text-[#0A0A0A]"
           >
             Get in Touch
           </Link>
