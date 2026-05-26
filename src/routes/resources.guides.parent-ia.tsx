@@ -1,9 +1,27 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SiteLayout, SectionLabel } from "@/components/site-layout";
 
 const SITE_URL = "https://koralab.org";
 const PRODUCT_PATH = "/resources/guides/parent-ia";
+
+// =============================================================
+// CHARIOW SNAP WIDGET INTEGRATION
+// =============================================================
+// 1. Go to Chariow dashboard > Products > Votre enfant face a l'IA > Snap.
+// 2. Copy the full HTML snippet Chariow gives you (it contains a <div>
+//    placeholder + a <script src="https://...chariow..."></script> line).
+// 3. Paste the snippet between the backticks below — that's it. The page
+//    will mount the widget where it sees CHARIOW_MOUNT_ID, and the floating
+//    Buy buttons will trigger it. Keep the snippet exactly as Chariow
+//    provides; do not edit attributes.
+// 4. Optional: set CHARIOW_CHECKOUT_URL to your hosted Chariow checkout
+//    link as a fallback for users on browsers that block third-party scripts.
+//    The ?ref=CODE query is appended automatically.
+// =============================================================
+const CHARIOW_SNAP_HTML = ""; // <-- paste your full Chariow Snap snippet here
+const CHARIOW_CHECKOUT_URL = "https://checkout.chariow.com/parent-ia";
+const CHARIOW_MOUNT_ID = "chariow-snap-mount";
 
 export const Route = createFileRoute("/resources/guides/parent-ia")({
   component: ParentIaPage,
@@ -13,8 +31,9 @@ export const Route = createFileRoute("/resources/guides/parent-ia")({
       {
         name: "description",
         content:
-          "Le guide que chaque parent africain doit lire en 2026. 15 competences, outils IA gratuits, et programme de 100 jours.",
+          "Le guide que chaque parent africain doit lire en 2026. 15 competences, outils IA gratuits, protocole anti-deepfake, et programme de 100 jours. Par Kheir Lissi, Kora Lab.",
       },
+      { name: "keywords", content: "IA enfants Afrique, parent IA, guide IA famille, deepfake enfant, tutorat IA Afrique, ChatGPT enfants, Kora Lab, Kheir Lissi" },
       { property: "og:title", content: "Votre enfant face a l'IA | Kora Lab" },
       {
         property: "og:description",
@@ -64,6 +83,23 @@ const INSIDE = [
   "La boite a outils IA : 9 outils gratuits avec strategie de rotation",
   "Le calendrier des 100 jours : une action par jour, entierement detaillee",
 ];
+
+const TOC = [
+  { n: "01", t: "Pourquoi ce guide, maintenant", p: "p. 4" },
+  { n: "02", t: "L'etat de l'IA en mai 2026", p: "p. 12" },
+  { n: "03", t: "Les metiers en Afrique d'ici 2035", p: "p. 28" },
+  { n: "04", t: "Securite familiale et deepfakes", p: "p. 44" },
+  { n: "05", t: "15 competences profondement humaines", p: "p. 58" },
+  { n: "06", t: "Boite a outils : 9 outils gratuits", p: "p. 92" },
+  { n: "07", t: "Le programme de 100 jours", p: "p. 110" },
+  { n: "08", t: "Devenir partenaire Kora Lab", p: "p. 148" },
+];
+
+const SAMPLE_EXCERPT = `Trois secondes. C'est ce qu'il faut a un modele de clonage vocal grand public, en mai 2026, pour reproduire la voix de votre enfant avec une fidelite suffisante pour tromper un grand-parent au telephone. Trois secondes prelevees sur une story Instagram, un message WhatsApp transfere, ou une video TikTok publique.
+
+La premiere reaction d'un parent est generalement de vouloir tout effacer. C'est la mauvaise reaction. Vos enfants vivront leur vie sociale en ligne, comme la votre se vit en partie hors ligne. La bonne reaction est de construire, en famille, un protocole simple qui rend le clonage inutile.
+
+Ce protocole tient en une phrase : un mot de passe verbal partage que personne en dehors du foyer ne connait. Pas un mot complique. Un mot anodin, choisi ensemble, et change tous les six mois. Si un appel arrive avec la voix de votre enfant en detresse, vous demandez le mot. Pas de mot, pas d'action.`;
 
 const STATS = [
   {
@@ -139,14 +175,46 @@ function useRefCode() {
   return { refCode, setRefCode: update };
 }
 
+function ChariowMount() {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!CHARIOW_SNAP_HTML || !ref.current) return;
+    // Mount the snippet once. We inject HTML, then re-evaluate any <script>
+    // tags it contains (innerHTML alone does not execute them).
+    ref.current.innerHTML = CHARIOW_SNAP_HTML;
+    const scripts = Array.from(ref.current.querySelectorAll("script"));
+    scripts.forEach((old) => {
+      const s = document.createElement("script");
+      Array.from(old.attributes).forEach((a) => s.setAttribute(a.name, a.value));
+      s.text = old.text;
+      old.parentNode?.replaceChild(s, old);
+    });
+  }, []);
+  if (!CHARIOW_SNAP_HTML) return null;
+  return <div id={CHARIOW_MOUNT_ID} ref={ref} className="kora-reveal mt-10" />;
+}
+
 function buyClick(ref: string) {
-  // CHARIOW SNAP WIDGET: Replace this handler with Chariow Snap embed code.
-  // Get it from your Chariow dashboard > Products > [Product] > Snap Widget.
-  // Example future integration:
-  //   <script src="https://cdn.chariow.com/snap.js" data-product="PRODUCT_ID"></script>
-  const base = "https://checkout.chariow.com/parent-ia";
-  const url = ref ? `${base}?ref=${encodeURIComponent(ref)}` : base;
-  if (typeof window !== "undefined") window.open(url, "_blank", "noopener,noreferrer");
+  // If Chariow Snap is configured, scroll to the mounted widget so the user
+  // checks out inline. Otherwise fall back to the hosted Chariow checkout
+  // URL with the referral code attached.
+  if (typeof window === "undefined") return;
+  if (CHARIOW_SNAP_HTML) {
+    const el = document.getElementById(CHARIOW_MOUNT_ID);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+  }
+  const url = ref
+    ? `${CHARIOW_CHECKOUT_URL}?ref=${encodeURIComponent(ref)}`
+    : CHARIOW_CHECKOUT_URL;
+  window.open(url, "_blank", "noopener,noreferrer");
+}
+
+function scrollToPreview() {
+  if (typeof window === "undefined") return;
+  document.getElementById("preview")?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function ParentIaPage() {
@@ -169,6 +237,22 @@ function ParentIaPage() {
             <p className="mt-3 text-sm uppercase tracking-[0.2em] text-[#6B6B6B]">
               Par Kheir Lissi, fondateur de Kora Lab
             </p>
+            <div className="kora-reveal mt-8 flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={scrollToPreview}
+                className="inline-block border border-white px-6 py-3 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-white hover:text-[#0A0A0A]"
+              >
+                Apercu du guide
+              </button>
+              <button
+                type="button"
+                onClick={() => buyClick(refCode)}
+                className="inline-block bg-white px-6 py-3 text-xs font-bold uppercase tracking-wider text-[#0A0A0A] transition-opacity hover:opacity-80"
+              >
+                {hasRef ? "Acheter a 9 900 FCFA" : "Acheter le guide"}
+              </button>
+            </div>
           </div>
 
           {/* PRICING */}
@@ -193,7 +277,6 @@ function ParentIaPage() {
                   Acheter le guide
                 </span>
               </button>
-              {/* CHARIOW SNAP WIDGET: Replace button above with Chariow Snap embed code. */}
             </div>
 
             {/* Partner */}
@@ -222,7 +305,6 @@ function ParentIaPage() {
                   Acheter a 9 900 FCFA
                 </span>
               </button>
-              {/* CHARIOW SNAP WIDGET: Replace button above with Chariow Snap embed code. Append ?ref={refCode} to checkout URL when present. */}
             </div>
           </div>
 
@@ -232,9 +314,84 @@ function ParentIaPage() {
         </div>
       </section>
 
+      {/* PREVIEW */}
+      <section id="preview" className="bg-white text-[#0A0A0A]">
+        <div className="mx-auto max-w-[1100px] px-6 py-24 md:py-32">
+          <div className="kora-reveal">
+            <SectionLabel>Apercu du guide</SectionLabel>
+            <h2 className="mt-4 max-w-3xl text-4xl font-black tracking-[-0.03em] md:text-5xl">
+              Regardez avant d'acheter.
+            </h2>
+            <p className="mt-6 max-w-2xl text-base text-[#1A1A1A] md:text-lg">
+              Voici la table des matieres complete et un extrait integral du chapitre sur la securite familiale.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-8 md:grid-cols-2">
+            {/* TOC mock page */}
+            <div className="kora-reveal relative border border-[#0A0A0A] bg-[#F7F5F1] p-10 shadow-[12px_12px_0_0_#0A0A0A]">
+              <div className="flex items-start justify-between border-b border-[#0A0A0A] pb-6">
+                <div>
+                  <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#6B6B6B]">Kora Lab Guides</p>
+                  <p className="mt-2 text-lg font-black tracking-[-0.02em]">Votre enfant face a l'IA</p>
+                </div>
+                <span className="text-[10px] uppercase tracking-[0.25em] text-[#6B6B6B]">2026</span>
+              </div>
+              <p className="mt-6 text-[10px] font-bold uppercase tracking-[0.3em] text-[#6B6B6B]">
+                Table des matieres
+              </p>
+              <ul className="mt-4 divide-y divide-[#0A0A0A]/15">
+                {TOC.map((row) => (
+                  <li key={row.n} className="flex items-baseline justify-between gap-4 py-3 text-sm">
+                    <span className="flex items-baseline gap-3">
+                      <span className="text-[10px] font-bold tabular-nums text-[#6B6B6B]">{row.n}</span>
+                      <span className="font-medium text-[#0A0A0A]">{row.t}</span>
+                    </span>
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-[#6B6B6B]">{row.p}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Sample chapter mock page */}
+            <div className="kora-reveal relative border border-[#0A0A0A] bg-[#F7F5F1] p-10 shadow-[12px_12px_0_0_#0A0A0A]">
+              <div className="flex items-start justify-between border-b border-[#0A0A0A] pb-6">
+                <div>
+                  <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#6B6B6B]">Chapitre 4 / Extrait</p>
+                  <p className="mt-2 text-lg font-black tracking-[-0.02em]">Trois secondes</p>
+                </div>
+                <span className="text-[10px] uppercase tracking-[0.25em] text-[#6B6B6B]">p. 44</span>
+              </div>
+              <div className="mt-6 space-y-4 text-[14px] leading-relaxed text-[#0A0A0A]">
+                {SAMPLE_EXCERPT.split("\n\n").map((p) => (
+                  <p key={p.slice(0, 24)}>{p}</p>
+                ))}
+              </div>
+              <p className="mt-6 border-t border-[#0A0A0A]/20 pt-4 text-[10px] uppercase tracking-[0.25em] text-[#6B6B6B]">
+                Extrait. Le chapitre complet contient le protocole, le script d'appel, et 4 cas reels.
+              </p>
+            </div>
+          </div>
+
+          <div className="kora-reveal mt-10 flex flex-wrap items-center gap-4">
+            <button
+              type="button"
+              onClick={() => buyClick(refCode)}
+              className="inline-block bg-[#0A0A0A] px-6 py-3 text-xs font-bold uppercase tracking-wider text-white transition-opacity hover:opacity-80"
+            >
+              {hasRef ? "Acheter a 9 900 FCFA" : "Acheter le guide"}
+            </button>
+            <p className="text-xs text-[#6B6B6B]">Livraison immediate par email.</p>
+          </div>
+
+          {/* Chariow Snap inline checkout (renders only when CHARIOW_SNAP_HTML is set) */}
+          <ChariowMount />
+        </div>
+      </section>
+
       {/* WHAT'S INSIDE */}
       <section className="bg-white text-[#0A0A0A]">
-        <div className="mx-auto max-w-[1100px] px-6 py-24 md:py-32">
+        <div className="mx-auto max-w-[1100px] px-6 pb-24 md:pb-32">
           <div className="kora-reveal">
             <SectionLabel>Ce que contient le guide</SectionLabel>
             <h2 className="mt-4 max-w-3xl text-4xl font-black tracking-[-0.03em] md:text-5xl">
@@ -328,8 +485,8 @@ function ParentIaPage() {
               <p className="mt-4 text-base text-[#ABABAB]">
                 Ce guide est cree par Kora Lab, le laboratoire souverain d'IA de l'Afrique.
               </p>
-              <Link to="/" className="mt-4 inline-block text-xs font-bold uppercase tracking-wider text-[#ABABAB] underline hover:text-white">
-                koralab.org
+              <Link to="/blog/$slug" params={{ slug: "votre-enfant-face-a-lia-guide-parent-afrique-2026" }} className="mt-4 inline-block text-xs font-bold uppercase tracking-wider text-[#ABABAB] underline hover:text-white">
+                Lire l'article du blog sur ce guide
               </Link>
             </div>
             <button
