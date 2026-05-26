@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as GlossaryRouteImport } from './routes/glossary'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -17,7 +18,13 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+import { Route as ResourcesGuidesParentIaRouteImport } from './routes/resources.guides.parent-ia'
 
+const ResourcesRoute = ResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResearchRoute = ResearchRouteImport.update({
   id: '/research',
   path: '/research',
@@ -58,6 +65,11 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
   path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResourcesGuidesParentIaRoute = ResourcesGuidesParentIaRouteImport.update({
+  id: '/guides/parent-ia',
+  path: '/guides/parent-ia',
+  getParentRoute: () => ResourcesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -66,8 +78,10 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/glossary': typeof GlossaryRoute
   '/research': typeof ResearchRoute
+  '/resources': typeof ResourcesRouteWithChildren
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/': typeof BlogIndexRoute
+  '/resources/guides/parent-ia': typeof ResourcesGuidesParentIaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -76,8 +90,10 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/glossary': typeof GlossaryRoute
   '/research': typeof ResearchRoute
+  '/resources': typeof ResourcesRouteWithChildren
   '/blog/$slug': typeof BlogSlugRoute
   '/blog': typeof BlogIndexRoute
+  '/resources/guides/parent-ia': typeof ResourcesGuidesParentIaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -87,8 +103,10 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/glossary': typeof GlossaryRoute
   '/research': typeof ResearchRoute
+  '/resources': typeof ResourcesRouteWithChildren
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/': typeof BlogIndexRoute
+  '/resources/guides/parent-ia': typeof ResourcesGuidesParentIaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -99,8 +117,10 @@ export interface FileRouteTypes {
     | '/contact'
     | '/glossary'
     | '/research'
+    | '/resources'
     | '/blog/$slug'
     | '/blog/'
+    | '/resources/guides/parent-ia'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -109,8 +129,10 @@ export interface FileRouteTypes {
     | '/contact'
     | '/glossary'
     | '/research'
+    | '/resources'
     | '/blog/$slug'
     | '/blog'
+    | '/resources/guides/parent-ia'
   id:
     | '__root__'
     | '/'
@@ -119,8 +141,10 @@ export interface FileRouteTypes {
     | '/contact'
     | '/glossary'
     | '/research'
+    | '/resources'
     | '/blog/$slug'
     | '/blog/'
+    | '/resources/guides/parent-ia'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -130,12 +154,20 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   GlossaryRoute: typeof GlossaryRoute
   ResearchRoute: typeof ResearchRoute
+  ResourcesRoute: typeof ResourcesRouteWithChildren
   BlogSlugRoute: typeof BlogSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/resources': {
+      id: '/resources'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/research': {
       id: '/research'
       path: '/research'
@@ -192,8 +224,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/resources/guides/parent-ia': {
+      id: '/resources/guides/parent-ia'
+      path: '/guides/parent-ia'
+      fullPath: '/resources/guides/parent-ia'
+      preLoaderRoute: typeof ResourcesGuidesParentIaRouteImport
+      parentRoute: typeof ResourcesRoute
+    }
   }
 }
+
+interface ResourcesRouteChildren {
+  ResourcesGuidesParentIaRoute: typeof ResourcesGuidesParentIaRoute
+}
+
+const ResourcesRouteChildren: ResourcesRouteChildren = {
+  ResourcesGuidesParentIaRoute: ResourcesGuidesParentIaRoute,
+}
+
+const ResourcesRouteWithChildren = ResourcesRoute._addFileChildren(
+  ResourcesRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -202,6 +253,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   GlossaryRoute: GlossaryRoute,
   ResearchRoute: ResearchRoute,
+  ResourcesRoute: ResourcesRouteWithChildren,
   BlogSlugRoute: BlogSlugRoute,
   BlogIndexRoute: BlogIndexRoute,
 }

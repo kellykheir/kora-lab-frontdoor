@@ -1,0 +1,347 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { SiteLayout, SectionLabel } from "@/components/site-layout";
+
+const SITE_URL = "https://koralab.org";
+const PRODUCT_PATH = "/resources/guides/parent-ia";
+
+export const Route = createFileRoute("/resources/guides/parent-ia")({
+  component: ParentIaPage,
+  head: () => ({
+    meta: [
+      { title: "Votre enfant face a l'IA | Kora Lab" },
+      {
+        name: "description",
+        content:
+          "Le guide que chaque parent africain doit lire en 2026. 15 competences, outils IA gratuits, et programme de 100 jours.",
+      },
+      { property: "og:title", content: "Votre enfant face a l'IA | Kora Lab" },
+      {
+        property: "og:description",
+        content:
+          "Le guide que chaque parent africain doit lire en 2026. 15 competences, outils IA gratuits, et programme de 100 jours.",
+      },
+      { property: "og:type", content: "product" },
+      { property: "og:url", content: `${SITE_URL}${PRODUCT_PATH}` },
+      { property: "og:image", content: `${SITE_URL}/og-default.jpg` },
+      { name: "twitter:title", content: "Votre enfant face a l'IA | Kora Lab" },
+      {
+        name: "twitter:description",
+        content: "Le guide que chaque parent africain doit lire en 2026.",
+      },
+      { name: "twitter:image", content: `${SITE_URL}/og-default.jpg` },
+    ],
+    links: [{ rel: "canonical", href: `${SITE_URL}${PRODUCT_PATH}` }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: "Votre enfant face a l'IA",
+          description:
+            "Le guide que chaque parent africain doit lire en 2026. 15 competences, outils IA gratuits, et programme de 100 jours.",
+          brand: { "@type": "Organization", name: "Kora Lab" },
+          author: { "@type": "Person", name: "Kheir Lissi" },
+          offers: {
+            "@type": "Offer",
+            price: "19900",
+            priceCurrency: "XOF",
+            url: `${SITE_URL}${PRODUCT_PATH}`,
+            availability: "https://schema.org/InStock",
+          },
+        }),
+      },
+    ],
+  }),
+});
+
+const INSIDE = [
+  "L'etat de l'IA en mai 2026 : GPT-5.5, Claude 4.7, Gemini 3.1 Pro, DeepSeek V4",
+  "Les metiers en Afrique : donnees reelles de l'OIT, McKinsey, et la Banque Mondiale",
+  "Securite familiale : protocole anti-deepfake et clonage vocal",
+  "15 competences que l'IA ne peut pas reproduire, avec des activites par age",
+  "La boite a outils IA : 9 outils gratuits avec strategie de rotation",
+  "Le calendrier des 100 jours : une action par jour, entierement detaillee",
+];
+
+const STATS = [
+  {
+    n: "2 ans",
+    label: "de progres scolaire en 6 semaines grace au tutorat IA",
+    source: "Banque Mondiale, Nigeria",
+  },
+  {
+    n: "+56 %",
+    label: "de salaire en plus pour les travailleurs qui maitrisent l'IA",
+    source: "PwC",
+  },
+  {
+    n: "97 %",
+    label: "des parents craignent l'impact de l'IA sur la carriere de leur enfant",
+    source: "Zety",
+  },
+];
+
+const FAQ = [
+  {
+    q: "C'est pour quel age ?",
+    a: "Le guide couvre les 3-7 ans, 8-12 ans, 13-17 ans, et les jeunes adultes de 18 ans et plus. Chaque activite est adaptee par tranche d'age.",
+  },
+  {
+    q: "J'ai besoin de competences techniques ?",
+    a: "Non. Le guide est ecrit pour des parents sans formation technique. Tous les outils recommandes sont gratuits et les tutoriels sont pas a pas.",
+  },
+  {
+    q: "Comment je recois le guide ?",
+    a: "Immediatement apres le paiement, par email. Le guide est un fichier PDF optimise pour la lecture sur telephone.",
+  },
+  {
+    q: "Comment fonctionne le lien partenaire ?",
+    a: "Apres votre achat, vous recevez un lien personnel. Chaque personne qui achete via votre lien paie 9 900 FCFA au lieu de 19 900. Vous gagnez 2 970 FCFA par vente, verses sur votre Mobile Money chaque mois.",
+  },
+  {
+    q: "Qui est Kheir Lissi ?",
+    a: "Ingenieur en IA et fondateur de Kora Lab, un laboratoire de recherche en intelligence artificielle base a Lome, au Togo. Ce guide est la premiere publication du laboratoire.",
+  },
+];
+
+const REF_STORAGE_KEY = "koralab_ref_code";
+
+function useRefCode() {
+  const [refCode, setRefCode] = useState("");
+
+  useEffect(() => {
+    try {
+      const url = new URL(window.location.href);
+      const fromUrl = url.searchParams.get("ref");
+      const stored = localStorage.getItem(REF_STORAGE_KEY);
+      const code = fromUrl || stored || "";
+      if (fromUrl) {
+        localStorage.setItem(REF_STORAGE_KEY, fromUrl);
+      }
+      if (code) setRefCode(code);
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const update = (val: string) => {
+    setRefCode(val);
+    try {
+      if (val) localStorage.setItem(REF_STORAGE_KEY, val);
+      else localStorage.removeItem(REF_STORAGE_KEY);
+    } catch {
+      // ignore
+    }
+  };
+
+  return { refCode, setRefCode: update };
+}
+
+function buyClick(ref: string) {
+  // CHARIOW SNAP WIDGET: Replace this handler with Chariow Snap embed code.
+  // Get it from your Chariow dashboard > Products > [Product] > Snap Widget.
+  // Example future integration:
+  //   <script src="https://cdn.chariow.com/snap.js" data-product="PRODUCT_ID"></script>
+  const base = "https://checkout.chariow.com/parent-ia";
+  const url = ref ? `${base}?ref=${encodeURIComponent(ref)}` : base;
+  if (typeof window !== "undefined") window.open(url, "_blank", "noopener,noreferrer");
+}
+
+function ParentIaPage() {
+  const { refCode, setRefCode } = useRefCode();
+  const hasRef = refCode.trim().length > 0;
+
+  return (
+    <SiteLayout>
+      {/* HERO */}
+      <section className="bg-[#0A0A0A] text-white">
+        <div className="mx-auto max-w-[1100px] px-6 py-20 md:py-28">
+          <div className="kora-reveal">
+            <SectionLabel>Guide Kora Lab</SectionLabel>
+            <h1 className="mt-4 max-w-3xl text-5xl font-black leading-[1.02] tracking-[-0.03em] md:text-7xl">
+              Votre enfant face a l'IA
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg text-[#ABABAB] md:text-xl">
+              Le guide que chaque parent africain doit lire en 2026.
+            </p>
+            <p className="mt-3 text-sm uppercase tracking-[0.2em] text-[#6B6B6B]">
+              Par Kheir Lissi, fondateur de Kora Lab
+            </p>
+          </div>
+
+          {/* PRICING */}
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            {/* Standard */}
+            <div
+              className={`kora-reveal flex flex-col border bg-[#111] p-8 ${
+                hasRef ? "border-[#1A1A1A] opacity-70" : "border-[#1A1A1A]"
+              }`}
+            >
+              <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#6B6B6B]">Prix standard</p>
+              <p className="mt-4 text-4xl font-black tracking-[-0.02em] text-white">
+                {hasRef ? <span className="line-through opacity-50">19 900 FCFA</span> : "19 900 FCFA"}
+              </p>
+              <p className="mt-3 text-sm text-[#ABABAB]">PDF, livraison immediate par email.</p>
+              <button
+                type="button"
+                onClick={() => buyClick("")}
+                className="mt-auto pt-8 text-left"
+              >
+                <span className="inline-block bg-white px-6 py-3 text-xs font-bold uppercase tracking-wider text-[#0A0A0A] transition-opacity hover:opacity-80">
+                  Acheter le guide
+                </span>
+              </button>
+              {/* CHARIOW SNAP WIDGET: Replace button above with Chariow Snap embed code. */}
+            </div>
+
+            {/* Partner */}
+            <div className="kora-reveal relative flex flex-col border-2 border-white bg-white p-8 text-[#0A0A0A]">
+              <span className="absolute -top-3 left-8 bg-[#0A0A0A] px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.3em] text-white">
+                Recommande
+              </span>
+              <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#6B6B6B]">
+                Prix avec lien partenaire
+              </p>
+              <p className="mt-4 text-4xl font-black tracking-[-0.02em]">9 900 FCFA</p>
+              <p className="mt-3 text-sm text-[#1A1A1A]">Vous avez un code partenaire ?</p>
+              <input
+                type="text"
+                value={refCode}
+                onChange={(e) => setRefCode(e.target.value)}
+                placeholder="Entrez votre code"
+                className="mt-3 w-full border border-[#0A0A0A] bg-white px-4 py-3 text-sm text-[#0A0A0A] placeholder:text-[#6B6B6B] focus:outline-none"
+              />
+              <button
+                type="button"
+                onClick={() => buyClick(refCode)}
+                className="mt-6 text-left"
+              >
+                <span className="inline-block bg-[#0A0A0A] px-6 py-3 text-xs font-bold uppercase tracking-wider text-white transition-opacity hover:opacity-80">
+                  Acheter a 9 900 FCFA
+                </span>
+              </button>
+              {/* CHARIOW SNAP WIDGET: Replace button above with Chariow Snap embed code. Append ?ref={refCode} to checkout URL when present. */}
+            </div>
+          </div>
+
+          <p className="kora-reveal mt-8 max-w-2xl text-sm text-[#ABABAB]">
+            Apres l'achat, vous recevrez votre propre lien partenaire pour gagner 2 970 FCFA par vente.
+          </p>
+        </div>
+      </section>
+
+      {/* WHAT'S INSIDE */}
+      <section className="bg-white text-[#0A0A0A]">
+        <div className="mx-auto max-w-[1100px] px-6 py-24 md:py-32">
+          <div className="kora-reveal">
+            <SectionLabel>Ce que contient le guide</SectionLabel>
+            <h2 className="mt-4 max-w-3xl text-4xl font-black tracking-[-0.03em] md:text-5xl">
+              Tout ce dont vous avez besoin, en un seul document.
+            </h2>
+          </div>
+          <ul className="mt-12 grid gap-px border border-[#E8E8E8] bg-[#E8E8E8] md:grid-cols-2">
+            {INSIDE.map((item, i) => (
+              <li
+                key={item}
+                className="kora-reveal flex gap-4 bg-white p-6"
+              >
+                <span className="text-xs font-bold tabular-nums text-[#6B6B6B]">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <p className="text-base leading-relaxed text-[#0A0A0A]">{item}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* STATS */}
+      <section className="bg-[#0A0A0A] text-white">
+        <div className="mx-auto max-w-[1100px] px-6 py-24 md:py-32">
+          <div className="kora-reveal">
+            <SectionLabel>Les chiffres</SectionLabel>
+            <h2 className="mt-4 max-w-3xl text-4xl font-black tracking-[-0.03em] md:text-5xl">
+              Pourquoi ce guide, maintenant.
+            </h2>
+          </div>
+          <div className="mt-12 grid gap-px border border-[#1A1A1A] bg-[#1A1A1A] md:grid-cols-3">
+            {STATS.map((s) => (
+              <div key={s.n} className="kora-reveal flex flex-col bg-[#0A0A0A] p-8">
+                <p className="text-5xl font-black tracking-[-0.03em] text-white md:text-6xl">{s.n}</p>
+                <p className="mt-4 text-base leading-relaxed text-[#ABABAB]">{s.label}</p>
+                <p className="mt-4 text-[10px] uppercase tracking-[0.25em] text-[#6B6B6B]">{s.source}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="bg-white text-[#0A0A0A]">
+        <div className="mx-auto max-w-[1100px] px-6 py-24 md:py-32">
+          <div className="kora-reveal">
+            <SectionLabel>FAQ</SectionLabel>
+            <h2 className="mt-4 max-w-3xl text-4xl font-black tracking-[-0.03em] md:text-5xl">
+              Questions frequentes.
+            </h2>
+          </div>
+          <div className="mt-12 divide-y border-y border-[#E8E8E8]">
+            {FAQ.map((it) => (
+              <details key={it.q} className="kora-reveal group py-6">
+                <summary className="flex cursor-pointer items-start justify-between gap-6 text-lg font-bold tracking-[-0.01em] md:text-xl">
+                  <span>{it.q}</span>
+                  <span className="shrink-0 text-2xl font-black text-[#6B6B6B] transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-4 max-w-3xl text-base leading-relaxed text-[#1A1A1A]">{it.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: FAQ.map((it) => ({
+                "@type": "Question",
+                name: it.q,
+                acceptedAnswer: { "@type": "Answer", text: it.a },
+              })),
+            }),
+          }}
+        />
+      </section>
+
+      {/* FINAL CTA */}
+      <section className="bg-[#0A0A0A] text-white">
+        <div className="mx-auto max-w-[1100px] px-6 py-24 md:py-32">
+          <div className="kora-reveal flex flex-col items-start gap-8 border border-[#1A1A1A] bg-[#111] p-10 md:flex-row md:items-center md:justify-between md:p-14">
+            <div className="max-w-xl">
+              <h2 className="text-3xl font-black tracking-[-0.02em] md:text-4xl">
+                Pret a commencer ?
+              </h2>
+              <p className="mt-4 text-base text-[#ABABAB]">
+                Ce guide est cree par Kora Lab, le laboratoire souverain d'IA de l'Afrique.
+              </p>
+              <Link to="/" className="mt-4 inline-block text-xs font-bold uppercase tracking-wider text-[#ABABAB] underline hover:text-white">
+                koralab.org
+              </Link>
+            </div>
+            <button
+              type="button"
+              onClick={() => buyClick(refCode)}
+              className="inline-block bg-white px-8 py-4 text-xs font-bold uppercase tracking-wider text-[#0A0A0A] transition-opacity hover:opacity-80"
+            >
+              {hasRef ? "Acheter a 9 900 FCFA" : "Acheter le guide"}
+            </button>
+          </div>
+        </div>
+      </section>
+    </SiteLayout>
+  );
+}
