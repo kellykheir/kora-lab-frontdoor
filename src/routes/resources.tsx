@@ -1,5 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout, SectionLabel } from "@/components/site-layout";
+
+const GUIDE_CHECKOUT_URL = "https://vknmhcsb.mychariow.shop/products/prd_5xn05el3";
 
 const SITE_URL = "https://koralab.org";
 
@@ -62,13 +64,14 @@ function ProductCard({ p }: { p: Product }) {
         <p className="mt-3 text-sm leading-relaxed text-[#ABABAB]">{p.description}</p>
         <div className="mt-6 flex items-center justify-between border-t border-[#1A1A1A] pt-6">
           <span className="text-lg font-bold text-white">{p.price}</span>
-          <Link
-            to={p.to}
-            hash="preview"
+          <a
+            href={GUIDE_CHECKOUT_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-block bg-white px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#0A0A0A] transition-opacity hover:opacity-80"
           >
             Voir l'apercu
-          </Link>
+          </a>
         </div>
       </div>
     </article>
