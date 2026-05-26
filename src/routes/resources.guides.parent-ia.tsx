@@ -19,9 +19,12 @@ const PRODUCT_PATH = "/resources/guides/parent-ia";
 //    link as a fallback for users on browsers that block third-party scripts.
 //    The ?ref=CODE query is appended automatically.
 // =============================================================
+const CHARIOW_PRODUCT_ID = "prd_d5vsf5lh";
+const CHARIOW_AFFILIATE_ID = "prd_5xn05el3";
+const CHARIOW_STORE = "vknmhcsb.mychariow.shop";
 const CHARIOW_SNAP_HTML = `<!-- Chariow Widget -->
-<div id="chariow-widget" data-product-id="prd_5xn05el3"
-    data-store-domain="vknmhcsb.mychariow.shop"
+<div id="chariow-widget" data-product-id="${CHARIOW_PRODUCT_ID}"
+    data-store-domain="${CHARIOW_STORE}"
     data-style="tap"
     data-border-style="rounded"
     data-cta-width="xs"
@@ -42,7 +45,8 @@ const CHARIOW_SNAP_HTML = `<!-- Chariow Widget -->
   document.head.appendChild(link);
 })();
 </script>`;
-const CHARIOW_CHECKOUT_URL = "https://vknmhcsb.mychariow.shop/prd_5xn05el3";
+const CHARIOW_CHECKOUT_URL = `https://${CHARIOW_STORE}/${CHARIOW_PRODUCT_ID}`;
+const CHARIOW_AFFILIATE_URL = `https://${CHARIOW_STORE}/${CHARIOW_AFFILIATE_ID}`;
 const CHARIOW_MOUNT_ID = "chariow-widget";
 
 export const Route = createFileRoute("/resources/guides/parent-ia")({
@@ -156,7 +160,7 @@ const FAQ = [
   },
   {
     q: "Comment fonctionne le lien partenaire ?",
-    a: "Apres votre achat, vous recevez un lien personnel. Chaque personne qui achete via votre lien paie 9 900 FCFA au lieu de 19 900. Vous gagnez 2 970 FCFA par vente, verses sur votre Mobile Money chaque mois.",
+    a: "Inscrivez-vous gratuitement sur affiliate.chariow.com, recuperez votre lien personnalise, et partagez-le. Chaque achat via votre lien rapporte 2 970 FCFA (30 % de commission). Les gains sont verses sur votre Mobile Money chaque mois.",
   },
   {
     q: "Qui est Kheir Lissi ?",
@@ -215,10 +219,14 @@ function ChariowMount() {
 }
 
 function buyClick(ref: string) {
-  // If Chariow Snap is configured, scroll to the mounted widget so the user
-  // checks out inline. Otherwise fall back to the hosted Chariow checkout
-  // URL with the referral code attached.
   if (typeof window === "undefined") return;
+  // With ref: open affiliate checkout in new tab
+  if (ref) {
+    const url = `${CHARIOW_AFFILIATE_URL}?ref=${encodeURIComponent(ref)}`;
+    window.open(url, "_blank", "noopener,noreferrer");
+    return;
+  }
+  // Without ref: scroll to inline widget (direct product 19 900 FCFA)
   if (CHARIOW_SNAP_HTML) {
     const el = document.getElementById(CHARIOW_MOUNT_ID);
     if (el) {
@@ -226,10 +234,7 @@ function buyClick(ref: string) {
       return;
     }
   }
-  const url = ref
-    ? `${CHARIOW_CHECKOUT_URL}?ref=${encodeURIComponent(ref)}`
-    : CHARIOW_CHECKOUT_URL;
-  window.open(url, "_blank", "noopener,noreferrer");
+  window.open(CHARIOW_CHECKOUT_URL, "_blank", "noopener,noreferrer");
 }
 
 function scrollToPreview() {
@@ -329,7 +334,7 @@ function ParentIaPage() {
           </div>
 
           <p className="kora-reveal mt-8 max-w-2xl text-sm text-[#ABABAB]">
-            Apres l'achat, vous recevrez votre propre lien partenaire pour gagner 2 970 FCFA par vente.
+            Inscrivez-vous gratuitement sur affiliate.chariow.com et gagnez 2 970 FCFA par vente.
           </p>
         </div>
       </section>

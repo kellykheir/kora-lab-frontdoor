@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout, SectionLabel } from "@/components/site-layout";
 
-const GUIDE_CHECKOUT_URL = "https://vknmhcsb.mychariow.shop/prd_5xn05el3";
+const GUIDE_CHECKOUT_URL = "https://vknmhcsb.mychariow.shop/prd_d5vsf5lh";
 
 const SITE_URL = "https://koralab.org";
 
