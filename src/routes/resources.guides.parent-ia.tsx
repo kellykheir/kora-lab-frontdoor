@@ -354,7 +354,7 @@ function ParentIaPage() {
 
           <div className="mt-12 grid gap-8 md:grid-cols-2">
             {/* TOC mock page */}
-            <div className="kora-reveal relative border border-[#0A0A0A] bg-[#F7F5F1] p-10 shadow-[12px_12px_0_0_#0A0A0A]">
+            <div className="relative border border-[#0A0A0A] bg-[#F7F5F1] p-10 shadow-[12px_12px_0_0_#0A0A0A]">
               <div className="flex items-start justify-between border-b border-[#0A0A0A] pb-6">
                 <div>
                   <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#6B6B6B]">Kora Lab Guides</p>
@@ -379,7 +379,7 @@ function ParentIaPage() {
             </div>
 
             {/* Sample chapter mock page */}
-            <div className="kora-reveal relative border border-[#0A0A0A] bg-[#F7F5F1] p-10 shadow-[12px_12px_0_0_#0A0A0A]">
+            <div className="relative border border-[#0A0A0A] bg-[#F7F5F1] p-10 shadow-[12px_12px_0_0_#0A0A0A]">
               <div className="flex items-start justify-between border-b border-[#0A0A0A] pb-6">
                 <div>
                   <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#6B6B6B]">Chapitre 4 / Extrait</p>
@@ -398,7 +398,7 @@ function ParentIaPage() {
             </div>
           </div>
 
-          <div className="kora-reveal mt-10 flex flex-wrap items-center gap-4">
+          <div className="mt-10 flex flex-wrap items-center gap-4">
             <button
               type="button"
               onClick={() => buyClick(refCode)}
