@@ -7,6 +7,7 @@ export const NAV_LINKS = [
   { to: "/research", label: "Research" },
   { to: "/blog", label: "Blog" },
   { to: "/about", label: "About" },
+  { to: "/resources", label: "Resources" },
   { to: "/contact", label: "Contact" },
 ] as const;
 
