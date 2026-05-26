@@ -30,3 +30,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# PDF guide generation
+guide-content.md
+scripts/generate-guide-pdf.ts
+public/votre-enfant-face-a-l-ia-le-guide-parental-2026.html
+public/*.pdf

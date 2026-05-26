@@ -19,9 +19,21 @@ const PRODUCT_PATH = "/resources/guides/parent-ia";
 //    link as a fallback for users on browsers that block third-party scripts.
 //    The ?ref=CODE query is appended automatically.
 // =============================================================
-const CHARIOW_SNAP_HTML = ""; // <-- paste your full Chariow Snap snippet here
-const CHARIOW_CHECKOUT_URL = "https://checkout.chariow.com/parent-ia";
-const CHARIOW_MOUNT_ID = "chariow-snap-mount";
+const CHARIOW_SNAP_HTML = `
+(function() {
+  var script = document.createElement('script');
+  script.src = 'https://js.chariowcdn.com/v1/widget.min.js';
+  script.async = true;
+  document.head.appendChild(script);
+
+  var link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = 'https://js.chariowcdn.com/v1/widget.min.css';
+  document.head.appendChild(link);
+})();
+`;
+const CHARIOW_CHECKOUT_URL = "https://vknmhcsb.mychariow.shop/products/prd_5xn05el3";
+const CHARIOW_MOUNT_ID = "chariow-widget";
 
 export const Route = createFileRoute("/resources/guides/parent-ia")({
   component: ParentIaPage,
@@ -179,8 +191,6 @@ function ChariowMount() {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!CHARIOW_SNAP_HTML || !ref.current) return;
-    // Mount the snippet once. We inject HTML, then re-evaluate any <script>
-    // tags it contains (innerHTML alone does not execute them).
     ref.current.innerHTML = CHARIOW_SNAP_HTML;
     const scripts = Array.from(ref.current.querySelectorAll("script"));
     scripts.forEach((old) => {
@@ -191,7 +201,22 @@ function ChariowMount() {
     });
   }, []);
   if (!CHARIOW_SNAP_HTML) return null;
-  return <div id={CHARIOW_MOUNT_ID} ref={ref} className="kora-reveal mt-10" />;
+  return (
+    <div
+      id={CHARIOW_MOUNT_ID}
+      data-product-id="prd_5xn05el3"
+      data-store-domain="vknmhcsb.mychariow.shop"
+      data-style="tap"
+      data-border-style="rounded"
+      data-cta-width="xs"
+      data-background-color="#FFFFFF"
+      data-cta-animation="shine"
+      data-locale="fr"
+      data-primary-color="#ffcc00"
+      ref={ref}
+      className="kora-reveal mt-10"
+    />
+  );
 }
 
 function buyClick(ref: string) {
