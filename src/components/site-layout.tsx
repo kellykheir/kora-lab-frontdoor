@@ -70,7 +70,17 @@ function Nav() {
         </button>
       </div>
       {open && (
-        <div className="fixed inset-0 top-16 z-40 flex flex-col gap-6 px-6 py-12 md:hidden" style={{ backgroundColor: "#0A0A0A" }}>
+        <div
+            className="z-40 flex flex-col gap-6 px-6 py-12 md:hidden"
+            style={{
+              position: "fixed",
+              top: "4rem",
+              right: "0",
+              bottom: "0",
+              left: "0",
+              backgroundColor: "#0A0A0A",
+            }}
+          >
           {NAV_LINKS.map((l) => (
             <Link
               key={l.to}
