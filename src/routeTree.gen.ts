@@ -18,6 +18,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+import { Route as ResourcesGuidesParentIaRouteImport } from './routes/resources.guides.parent-ia'
 
 const ResourcesRoute = ResourcesRouteImport.update({
   id: '/resources',
@@ -64,6 +65,11 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
   path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResourcesGuidesParentIaRoute = ResourcesGuidesParentIaRouteImport.update({
+  id: '/guides/parent-ia',
+  path: '/guides/parent-ia',
+  getParentRoute: () => ResourcesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -72,9 +78,10 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/glossary': typeof GlossaryRoute
   '/research': typeof ResearchRoute
-  '/resources': typeof ResourcesRoute
+  '/resources': typeof ResourcesRouteWithChildren
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/': typeof BlogIndexRoute
+  '/resources/guides/parent-ia': typeof ResourcesGuidesParentIaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -83,9 +90,10 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/glossary': typeof GlossaryRoute
   '/research': typeof ResearchRoute
-  '/resources': typeof ResourcesRoute
+  '/resources': typeof ResourcesRouteWithChildren
   '/blog/$slug': typeof BlogSlugRoute
   '/blog': typeof BlogIndexRoute
+  '/resources/guides/parent-ia': typeof ResourcesGuidesParentIaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -95,9 +103,10 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/glossary': typeof GlossaryRoute
   '/research': typeof ResearchRoute
-  '/resources': typeof ResourcesRoute
+  '/resources': typeof ResourcesRouteWithChildren
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/': typeof BlogIndexRoute
+  '/resources/guides/parent-ia': typeof ResourcesGuidesParentIaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -111,6 +120,7 @@ export interface FileRouteTypes {
     | '/resources'
     | '/blog/$slug'
     | '/blog/'
+    | '/resources/guides/parent-ia'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -122,6 +132,7 @@ export interface FileRouteTypes {
     | '/resources'
     | '/blog/$slug'
     | '/blog'
+    | '/resources/guides/parent-ia'
   id:
     | '__root__'
     | '/'
@@ -133,6 +144,7 @@ export interface FileRouteTypes {
     | '/resources'
     | '/blog/$slug'
     | '/blog/'
+    | '/resources/guides/parent-ia'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -142,7 +154,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   GlossaryRoute: typeof GlossaryRoute
   ResearchRoute: typeof ResearchRoute
-  ResourcesRoute: typeof ResourcesRoute
+  ResourcesRoute: typeof ResourcesRouteWithChildren
   BlogSlugRoute: typeof BlogSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
 }
@@ -212,8 +224,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/resources/guides/parent-ia': {
+      id: '/resources/guides/parent-ia'
+      path: '/guides/parent-ia'
+      fullPath: '/resources/guides/parent-ia'
+      preLoaderRoute: typeof ResourcesGuidesParentIaRouteImport
+      parentRoute: typeof ResourcesRoute
+    }
   }
 }
+
+interface ResourcesRouteChildren {
+  ResourcesGuidesParentIaRoute: typeof ResourcesGuidesParentIaRoute
+}
+
+const ResourcesRouteChildren: ResourcesRouteChildren = {
+  ResourcesGuidesParentIaRoute: ResourcesGuidesParentIaRoute,
+}
+
+const ResourcesRouteWithChildren = ResourcesRoute._addFileChildren(
+  ResourcesRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -222,7 +253,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   GlossaryRoute: GlossaryRoute,
   ResearchRoute: ResearchRoute,
-  ResourcesRoute: ResourcesRoute,
+  ResourcesRoute: ResourcesRouteWithChildren,
   BlogSlugRoute: BlogSlugRoute,
   BlogIndexRoute: BlogIndexRoute,
 }
