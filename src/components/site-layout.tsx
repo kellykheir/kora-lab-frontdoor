@@ -70,7 +70,7 @@ function Nav() {
         </button>
       </div>
       {open && (
-        <div className="fixed inset-0 top-16 z-40 flex flex-col gap-6 bg-[#0A0A0A] px-6 py-12 md:hidden">
+        <div className="fixed inset-0 top-16 z-40 flex flex-col gap-6 bg-ink px-6 py-12 md:hidden">
           {NAV_LINKS.map((l) => (
             <Link
               key={l.to}
