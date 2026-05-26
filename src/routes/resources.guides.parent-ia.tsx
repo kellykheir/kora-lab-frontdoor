@@ -42,7 +42,7 @@ const CHARIOW_SNAP_HTML = `<!-- Chariow Widget -->
   document.head.appendChild(link);
 })();
 </script>`;
-const CHARIOW_CHECKOUT_URL = "https://vknmhcsb.mychariow.shop/products/prd_5xn05el3";
+const CHARIOW_CHECKOUT_URL = "https://vknmhcsb.mychariow.shop/prd_5xn05el3";
 const CHARIOW_MOUNT_ID = "chariow-widget";
 
 export const Route = createFileRoute("/resources/guides/parent-ia")({
