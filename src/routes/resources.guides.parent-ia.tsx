@@ -19,7 +19,17 @@ const PRODUCT_PATH = "/resources/guides/parent-ia";
 //    link as a fallback for users on browsers that block third-party scripts.
 //    The ?ref=CODE query is appended automatically.
 // =============================================================
-const CHARIOW_SNAP_HTML = `
+const CHARIOW_SNAP_HTML = `<!-- Chariow Widget -->
+<div id="chariow-widget" data-product-id="prd_5xn05el3"
+    data-store-domain="vknmhcsb.mychariow.shop"
+    data-style="tap"
+    data-border-style="rounded"
+    data-cta-width="xs"
+    data-background-color="#FFFFFF"
+    data-cta-animation="shine"
+    data-locale="en"
+    data-primary-color="#ffcc00"></div>
+<script>
 (function() {
   var script = document.createElement('script');
   script.src = 'https://js.chariowcdn.com/v1/widget.min.js';
@@ -31,7 +41,7 @@ const CHARIOW_SNAP_HTML = `
   link.href = 'https://js.chariowcdn.com/v1/widget.min.css';
   document.head.appendChild(link);
 })();
-`;
+</script>`;
 const CHARIOW_CHECKOUT_URL = "https://vknmhcsb.mychariow.shop/products/prd_5xn05el3";
 const CHARIOW_MOUNT_ID = "chariow-widget";
 
@@ -201,22 +211,7 @@ function ChariowMount() {
     });
   }, []);
   if (!CHARIOW_SNAP_HTML) return null;
-  return (
-    <div
-      id={CHARIOW_MOUNT_ID}
-      data-product-id="prd_5xn05el3"
-      data-store-domain="vknmhcsb.mychariow.shop"
-      data-style="tap"
-      data-border-style="rounded"
-      data-cta-width="xs"
-      data-background-color="#FFFFFF"
-      data-cta-animation="shine"
-      data-locale="fr"
-      data-primary-color="#ffcc00"
-      ref={ref}
-      className="kora-reveal mt-10"
-    />
-  );
+  return <div ref={ref} className="kora-reveal mt-10" />;
 }
 
 function buyClick(ref: string) {
