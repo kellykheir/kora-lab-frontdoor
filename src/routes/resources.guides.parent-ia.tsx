@@ -239,7 +239,7 @@ function buyClick(ref: string) {
 
 function scrollToPreview() {
   if (typeof window === "undefined") return;
-  window.open(CHARIOW_CHECKOUT_URL, "_blank", "noopener,noreferrer");
+  document.getElementById("preview")?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function ParentIaPage() {
