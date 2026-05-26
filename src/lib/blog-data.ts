@@ -10,6 +10,70 @@ export type BlogPost = {
 
 export const POSTS: BlogPost[] = [
   {
+    slug: "votre-enfant-face-a-lia-guide-parent-afrique-2026",
+    title: "Votre enfant face a l'IA : pourquoi chaque parent africain doit lire ce guide en 2026",
+    category: "Analysis",
+    excerpt:
+      "Tutorat IA, deepfakes, metiers de demain, competences que l'IA ne peut pas reproduire. Le premier guide pratique pour les parents africains, ecrit depuis Lome.",
+    date: "2026-05-20",
+    readTime: "8 min",
+    body: `## Une generation entiere grandit avec l'IA. Tres peu de parents savent quoi faire.
+
+En 2026, un enfant ne de cette annee aura quinze ans en 2041. A ce moment-la, la plupart des metiers actuels auront ete transformes, deplaces, ou crees par l'intelligence artificielle. Les parents africains qui lisent ces lignes prennent aujourd'hui des decisions qui determineront si leur enfant sera acteur ou spectateur de cette transformation.
+
+Le probleme n'est pas l'IA elle-meme. Le probleme est l'asymetrie d'information. Les parents en Californie ont acces a des dizaines de guides, podcasts, et conferences pour preparer leurs enfants. Les parents en Afrique francophone, eux, naviguent dans le noir avec des outils ecrits pour un autre contexte.
+
+Ce guide existe pour combler ce vide.
+
+## Ce que les chiffres disent vraiment
+
+97 pour cent des parents interroges par Zety craignent l'impact de l'IA sur la carriere de leur enfant. Cette inquietude est justifiee, mais elle est aussi mal orientee. Les memes etudes montrent que les travailleurs qui maitrisent l'IA gagnent en moyenne 56 pour cent de plus que ceux qui l'ignorent, selon PwC.
+
+Au Nigeria, une experience de la Banque Mondiale a demontre qu'un tutorat assiste par IA pendant six semaines produit l'equivalent de deux annees scolaires de progres. Cette donnee a une implication concrete pour les parents africains : l'IA n'est pas seulement un risque a contenir, c'est aussi le plus grand egalisateur educatif jamais construit, et il est gratuit.
+
+La question n'est donc pas si vos enfants utiliseront l'IA. Ils l'utilisent deja. La question est de savoir s'ils l'utiliseront pour apprendre, ou s'ils se laisseront apprendre par elle.
+
+## Les trois dangers que les parents sous-estiment
+
+**Le clonage vocal.** En 2026, trois secondes d'audio suffisent pour cloner la voix d'un enfant. Des familles au Togo, au Senegal, et en Cote d'Ivoire ont deja recu des appels frauduleux utilisant la voix clonee de leur enfant pour reclamer une rancon ou un transfert Mobile Money. Le guide contient un protocole anti-deepfake familial avec un mot de passe verbal partage.
+
+**La dependance cognitive.** Un enfant qui utilise ChatGPT pour ses devoirs sans cadre apprend a generer des reponses, pas a penser. Le guide propose un cadre simple : utiliser l'IA pour expliquer, jamais pour faire a la place.
+
+**Le retard linguistique.** Les modeles d'IA actuels parlent mal le wolof, le yoruba, l'ewe, ou le swahili. Un enfant qui base son apprentissage uniquement sur ces outils risque de developper sa pensee dans une langue qui n'est pas la sienne. Le guide insiste sur l'equilibre linguistique a chaque age.
+
+## Les quinze competences qui restent humaines
+
+Le guide identifie quinze competences que l'IA, meme en 2030, ne pourra pas reproduire de maniere convaincante. Parmi elles : la presence physique reelle, la negociation face a face, le jugement ethique en situation ambigue, la creation artistique liee a une histoire personnelle, le leadership en periode de crise, et le soin direct aux personnes.
+
+Pour chacune de ces quinze competences, le guide propose des activites concretes par tranche d'age : 3-7 ans, 8-12 ans, 13-17 ans, et 18 ans et plus. Pas de theorie. Des activites que vous pouvez commencer ce week-end.
+
+## Pourquoi un guide ecrit depuis Lome, et pas traduit de l'anglais
+
+La majorite des contenus parentaux sur l'IA disponibles aujourd'hui sont ecrits par et pour des familles americaines ou europeennes. Ils supposent un acces illimite a internet, un GPU dans le salon, une ecole qui integre Khan Academy, et une langue maternelle bien representee dans les modeles.
+
+L'experience d'un parent a Lome, Cotonou, Dakar, ou Abidjan est differente. Le guide est ecrit a partir de cette realite : connexion intermittente, smartphones partages, ecoles publiques surchargees, plusieurs langues a la maison, et un budget reel.
+
+C'est pourquoi tous les outils recommandes dans le guide sont gratuits, fonctionnent sur smartphone, et sont accessibles en franc CFA pour les versions payantes optionnelles.
+
+## Le programme de 100 jours
+
+La derniere partie du guide est un calendrier de cent jours, avec une action concrete par jour. Le premier jour : creer un compte famille sur un outil d'IA gratuit. Le centieme jour : votre enfant a construit, presente, et defendu son propre projet utilisant l'IA.
+
+Entre les deux : cent micro-decisions qui transforment un foyer en environnement d'apprentissage actif.
+
+## Pour qui ce guide n'est pas
+
+Ce guide n'est pas pour les parents qui veulent interdire l'IA a leurs enfants. Cette strategie ne fonctionne pas, et le guide ne pretend pas le contraire. Il n'est pas non plus pour les parents qui pensent qu'il suffit de donner un telephone et de laisser faire.
+
+Il est pour les parents qui veulent un cadre, des outils, et un plan. Il est ecrit pour etre lu en deux heures et applique en cent jours.
+
+## Disponible maintenant
+
+Le guide est disponible en format PDF, optimise pour la lecture sur telephone, et livre par email immediatement apres l'achat. Le prix standard est de 19 900 FCFA. Un programme partenaire permet d'acceder au guide a 9 900 FCFA via un lien de recommandation, et de gagner une commission sur chaque vente realisee grace a votre propre lien.
+
+C'est la premiere publication grand public de Kora Lab. Toutes les recettes financent la recherche du laboratoire sur les modeles d'IA souverains pour l'Afrique.`,
+  },
+  {
     slug: "why-africa-needs-sovereign-ai",
     title: "Why Africa Needs Sovereign AI, Not Borrowed Tools",
     category: "Analysis",

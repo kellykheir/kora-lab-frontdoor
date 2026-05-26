@@ -64,9 +64,10 @@ function ProductCard({ p }: { p: Product }) {
           <span className="text-lg font-bold text-white">{p.price}</span>
           <Link
             to={p.to}
+            hash="preview"
             className="inline-block bg-white px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#0A0A0A] transition-opacity hover:opacity-80"
           >
-            Voir le guide
+            Voir l'apercu
           </Link>
         </div>
       </div>
