@@ -62,11 +62,11 @@ function Nav() {
           type="button"
           aria-label="Open menu"
           onClick={() => setOpen((o) => !o)}
-          className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden"
+          className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full bg-white/90 md:hidden"
         >
-          <span className="block h-px w-6 bg-[#0A0A0A]" />
-          <span className="block h-px w-6 bg-[#0A0A0A]" />
-          <span className="block h-px w-6 bg-[#0A0A0A]" />
+          <span className="block h-0.5 w-5 bg-[#0A0A0A]" />
+          <span className="block h-0.5 w-5 bg-[#0A0A0A]" />
+          <span className="block h-0.5 w-5 bg-[#0A0A0A]" />
         </button>
       </div>
       {open && (
