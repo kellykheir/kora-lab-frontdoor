@@ -37,50 +37,42 @@ function Nav() {
   useEffect(() => { setOpen(false); }, [location.pathname]);
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-[#E8E8E8] bg-white/95 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-[1100px] items-center justify-between px-6">
-        <Link to="/" className="kora-wordmark text-[#0A0A0A]">KORA LAB</Link>
-        <div className="hidden items-center gap-7 md:flex">
-          {NAV_LINKS.map((l) => (
-            <Link
-              key={l.to}
-              to={l.to}
-              activeOptions={{ exact: l.to === "/" }}
-              className="text-sm text-[#0A0A0A] transition-opacity hover:opacity-60 [&[data-status=active]]:border-b [&[data-status=active]]:border-[#0A0A0A] [&[data-status=active]]:pb-0.5"
-            >
-              {l.label}
-            </Link>
-          ))}
-        </div>
-        <Link
-          to="/contact"
-          className="hidden bg-[#0A0A0A] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-opacity hover:opacity-80 md:inline-block"
-        >
-          Get in Touch
-        </Link>
-        <button
-          type="button"
-          aria-label="Open menu"
-          onClick={() => setOpen((o) => !o)}
-          className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full bg-white/90 md:hidden"
-        >
-          <span className="block h-0.5 w-5 bg-[#0A0A0A]" />
-          <span className="block h-0.5 w-5 bg-[#0A0A0A]" />
-          <span className="block h-0.5 w-5 bg-[#0A0A0A]" />
-        </button>
-      </div>
-      {open && (
-        <div
-            className="z-40 flex flex-col gap-6 px-6 py-12 md:hidden"
-            style={{
-              position: "fixed",
-              top: "4rem",
-              right: "0",
-              bottom: "0",
-              left: "0",
-              backgroundColor: "#0A0A0A",
-            }}
+    <>
+      <nav className="sticky top-0 z-50 w-full border-b border-[#E8E8E8] bg-white/95 backdrop-blur">
+        <div className="mx-auto flex h-16 max-w-[1100px] items-center justify-between px-6">
+          <Link to="/" className="kora-wordmark text-[#0A0A0A]">KORA LAB</Link>
+          <div className="hidden items-center gap-7 md:flex">
+            {NAV_LINKS.map((l) => (
+              <Link
+                key={l.to}
+                to={l.to}
+                activeOptions={{ exact: l.to === "/" }}
+                className="text-sm text-[#0A0A0A] transition-opacity hover:opacity-60 [&[data-status=active]]:border-b [&[data-status=active]]:border-[#0A0A0A] [&[data-status=active]]:pb-0.5"
+              >
+                {l.label}
+              </Link>
+            ))}
+          </div>
+          <Link
+            to="/contact"
+            className="hidden bg-[#0A0A0A] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-opacity hover:opacity-80 md:inline-block"
           >
+            Get in Touch
+          </Link>
+          <button
+            type="button"
+            aria-label="Open menu"
+            onClick={() => setOpen((o) => !o)}
+            className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full bg-white/90 md:hidden"
+          >
+            <span className="block h-0.5 w-5 bg-[#0A0A0A]" />
+            <span className="block h-0.5 w-5 bg-[#0A0A0A]" />
+            <span className="block h-0.5 w-5 bg-[#0A0A0A]" />
+          </button>
+        </div>
+      </nav>
+      {open && (
+        <div className="fixed inset-0 top-16 z-40 flex flex-col gap-6 bg-[#0A0A0A] px-6 py-12 md:hidden">
           {NAV_LINKS.map((l) => (
             <Link
               key={l.to}
@@ -98,7 +90,7 @@ function Nav() {
           </Link>
         </div>
       )}
-    </nav>
+    </>
   );
 }
 
