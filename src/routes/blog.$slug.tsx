@@ -3,6 +3,8 @@ import { SiteLayout } from "@/components/site-layout";
 import { POSTS } from "@/lib/blog-data";
 
 const SITE_URL = "https://koralab.org";
+const GUIDE_SLUG = "votre-enfant-face-a-lia-guide-parent-afrique-2026";
+const GUIDE_PATH = "/resources/guides/parent-ia";
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: ({ params }) => {
@@ -113,6 +115,16 @@ function BlogPost() {
           <div className="kora-prose text-[17px] text-[#1A1A1A]">
             {renderBody(post.body)}
           </div>
+          {post.slug === GUIDE_SLUG && (
+            <div className="mt-10">
+              <Link
+                to={GUIDE_PATH}
+                className="inline-block bg-[#0A0A0A] px-8 py-4 text-xs font-bold uppercase tracking-wider text-white transition-opacity hover:opacity-80"
+              >
+                Acheter le guide →
+              </Link>
+            </div>
+          )}
         </div>
       </article>
 
